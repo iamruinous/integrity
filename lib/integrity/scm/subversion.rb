@@ -28,51 +28,60 @@ module Integrity
         yield
       end
 
-      def commit_identifier(revision)
-        return revision
-      end
-
-      def commit_metadata(revision)
-        xml =  %x[ cd #{working_directory} && svn log -q --limit 1 --xml ]
-        h = Hpricot( xml )
-        metadata = {}
-        metadata['author']  = h.at('author').inner_html
-        metadata['message'] = h.at('msg').inner_html
-        metadata['date']    = Time.parse(h.at('date').inner_html).iso8601
-
-        return metadata
-      end
-
       def name
         self.class.name.split("::").last
       end
 
-      private
+      def head
+        log "Getting the HEAD of '#{uri}'"
+        xml = %x[ svn info #{auth_info} --non-interactive --xml #{uri} ]
+        doc = Hpricot::XML( xml )
+        return doc.at("commit")['revision']
+      end
 
-        def initial_checkout
-          log "Initial checkout of #{uri} to #{working_directory}"
-          log_command("svn co -q #{uri} #{working_directory}" )
-        end
+      def info( revision )
+        log "Retrieving info for revision #{revision}"
+        xml = %x[  svn log #{auth_info} --non-interactive --xml --revision #{revision} #{uri}  ]
+        doc = Hpricot::XML( xml )
+        h = {}
+        h['author']       = h.at('author').inner_html + " <noemail>"
+        h['message']      = h.at('msg').inner_html
+        h['committed_at'] = Time.parse(h.at('date').inner_html).iso8601
+        return h
+      end
 
-        def update_to(revision=nil)
-          log "Updating to revision #{revision}"
-          log_command("cd #{working_directory} && svn up -q -r#{revision}" )
-        end
 
-        def log_command( cmd )
-          output = %x[ #{cmd} ]
-          if output.length > 0 then
-            output.split("\n").each { |l| log l.strip }
-          end
-        end
+    private
 
-        def already_out?
-          File.directory?(working_directory / ".svn")
-        end
+      # TODO : how to do autho information for svn ?
+      def auth_info
+        ""
+      end
 
-        def log(message)
-          Integrity.log(name) { message }
+      def initial_checkout
+        log "Initial checkout of #{uri} to #{working_directory}"
+        log_command("svn co -q #{uri} #{working_directory}" )
+      end
+
+      def update_to(revision=nil)
+        log "Updating to revision #{revision}"
+        log_command("cd #{working_directory} && svn up -q -r#{revision}" )
+      end
+
+      def log_command( cmd )
+        output = %x[ #{cmd} ]
+        if output.length > 0 then
+          output.split("\n").each { |l| log l.strip }
         end
+      end
+
+      def already_out?
+        File.directory?(working_directory / ".svn")
+      end
+
+      def log(message)
+        Integrity.log(name) { message }
+      end
     end
   end
 end
