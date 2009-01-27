@@ -16,7 +16,7 @@ module Integrity
         %w[ svn+ssh svn http https file ].include?( uri.scheme )
       end
 
-      def initialize(uri, branch, working_directory)
+      def initialize(uri, branch, working_directory = nil)
         @uri = uri.to_s
         @branch = branch.to_s
         @working_directory = working_directory
