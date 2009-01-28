@@ -11,6 +11,20 @@ class SCMTest < Test::Unit::TestCase
     scm("git://example.org/repo.git").should be_an(SCM::Git)
   end
 
+  it "recognizes subversion URIs" do
+    scm("svn://example.org/repo").should be_an(SCM::Subversion)
+    scm("svn://example.org/repo/").should be_an(SCM::Subversion)
+    scm("http://example.org/repo/").should be_an(SCM::Subversion)
+    scm("https://example.org/repo/").should be_an(SCM::Subversion)
+    scm("svn+ssh://example.org/repo/").should be_an(SCM::Subversion)
+    scm("file:///repo/").should be_an(SCM::Subversion)
+  end
+
+  it "can determine between repository uris" do
+    SCM.scm_class_for("git://example.com/repo.git").should == SCM::Git
+    SCM.scm_class_for("svn://example.com/repo/").should == SCM::Subversion
+  end
+
   it "raises SCMUnknownError if it can't figure the SCM from the URI" do
     lambda { scm("scm://example.org") }.should raise_error(SCM::SCMUnknownError)
   end
@@ -18,6 +32,10 @@ class SCMTest < Test::Unit::TestCase
   it "doesn't need the working tree path for all operations, so it's not required on the constructor" do
     lambda {
       SCM.new(Addressable::URI.parse("git://github.com/foca/integrity.git"), "master")
+    }.should_not raise_error
+
+    lambda {
+      SCM.new(Addressable::URI.parse("svn://example.com/repo/"), "master")
     }.should_not raise_error
   end
 
