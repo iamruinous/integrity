@@ -44,9 +44,9 @@ module Integrity
         xml = %x[  svn log #{auth_info} --non-interactive --xml --revision #{revision} #{uri}  ]
         doc = Hpricot::XML( xml )
         h = {}
-        h['author']       = h.at('author').inner_html + " <noemail>"
-        h['message']      = h.at('msg').inner_html
-        h['committed_at'] = Time.parse(h.at('date').inner_html).iso8601
+        h['author']       = doc.at('author').inner_html + " <noemail>"
+        h['message']      = doc.at('msg').inner_html
+        h['committed_at'] = Time.parse(doc.at('date').inner_html).iso8601
         return h
       end
 
