@@ -1,6 +1,8 @@
 module Integrity
   module SCM
-    class Git
+    # Any URI that points to an SCM.  Subclass if necessary.
+    # 
+    class URI
       # From the git-pull man page:
       #
       # GIT URLS
@@ -26,31 +28,43 @@ module Integrity
       #     [user@]host.xz:~user/path/to/repo.git/
       #     [user@]host.xz:path/to/repo.git
       #
-      class URI
-        def initialize(uri_string)
-          @uri = Addressable::URI.parse(uri_string)
-        end
-    
-        def working_tree_path
-          strip_extension(path).gsub("/", "-")
-        end
-    
-      private
-    
-        def strip_extension(string)
+      # SUBVERSION URLS
+      # 
+      #   pulled from http://svnbook.red-bean.com/en/1.5/svn.basic.in-action.html
+      #
+      #   file:///path/to/repo
+      #   https://host.xz/path/to/repo
+      #   https://host.xz/~user/path/to/repo
+      #   svn://host.xz/path/to/repo
+      #   svn+ssh://host.xzpath/to/repo
+      #
+      #
+      # In all these cases how to get the working tree path is the same across
+      # git an svn.
+      #
+      def initialize(uri_string)
+        @uri = Addressable::URI.parse(uri_string)
+      end
+
+      def working_tree_path
+        strip_extension(path).gsub("/", "-")
+      end
+
+    private
+
+      def strip_extension(string)
+        uri = Pathname.new(string)
+        if uri.extname.any?
           uri = Pathname.new(string)
-          if uri.extname.any?
-            uri = Pathname.new(string)
-            string.gsub(Regexp.new("#{uri.extname}\/?"), "")
-          else
-            string
-          end
+          string.gsub(Regexp.new("#{uri.extname}\/?"), "")
+        else
+          string
         end
-    
-        def path
-          path = @uri.path
-          path.gsub(/\~[a-zA-Z0-9]*\//, "").gsub(/^\//, "")
-        end
+      end
+
+      def path
+        path = @uri.path
+        path.gsub(/\~[a-zA-Z0-9]*\//, "").gsub(/^\//, "")
       end
     end
   end
