@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require "rubygems"
-
+require "notifier/email"
 # since we are deploying integrity as a webapp instead of a gem, force the lib
 # subdirectory into the path
 $: << File.join( File.expand_path( File.dirname( __FILE__ ) ), "lib" )
