@@ -7,14 +7,14 @@
 # This should be a complete connection string to your database. For example 
 # `mysql://user@localhost/integrity` (you need an `integrity` db created in 
 # localhost, of course).
-:database_uri: sqlite3:/data/sinatra/shared/db/sinatra.db
+:database_uri: sqlite3:/data/integrity/shared/db/integrity.db
 
 # This is where your project's code will be checked out to. Make sure it's 
 # writable by the user that runs Integrity.
-:export_directory: /data/sinatra/shared/builds
+:export_directory: /data/integrity/shared/builds
 
 # Path to the integrity log file
-:log: /data/sinatra/shared/log/integrity.log
+:log: /data/integrity/shared/log/integrity.log
 
 # Enable/Disable debug logging. Turning this on will log queries made to the
 # database and web requests (if using the provided rackup file)
