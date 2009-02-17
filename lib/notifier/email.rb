@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'integrity'
-require 'diddies/mailer'
+require 'ditties/mailer'
 
 module Integrity
   class Notifier
