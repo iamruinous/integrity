@@ -10,7 +10,7 @@
     
   %p.required{ :class => error_class(@project, :uri) }
     %label{ :for => "project_repository" }<
-      &== Git repository #{errors_on @project, :uri}
+      &== Repository URI #{errors_on @project, :uri}
     %input.text#project_repository{ :name => "project_data[uri]", :type => "text", :value => h(@project.uri) }
       
   %p.normal{ :class => error_class(@project, :branch) }
