@@ -8,3 +8,4 @@ exports
 *.gem
 *.swp
 .aggregated_coverage_report
+*~
