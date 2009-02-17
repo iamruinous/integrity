@@ -23,7 +23,9 @@ require "integrity/commit"
 require "integrity/build"
 require "integrity/project_builder"
 require "integrity/scm"
+require "integrity/scm/uri"
 require "integrity/scm/git"
+require "integrity/scm/subversion"
 require "integrity/notifier"
 
 module Integrity

@@ -1,12 +1,16 @@
 module Integrity
   module SCM
     class Git
-      require File.dirname(__FILE__) / "git/uri"
 
       attr_reader :uri, :branch, :working_directory
 
       def self.working_tree_path(uri)
-        Git::URI.new(uri).working_tree_path
+        SCM::URI.new(uri).working_tree_path
+      end
+
+      def self.is_this_my_home?( location )
+        uri = Addressable::URI.parse( location )
+        return (uri.scheme == "git" || uri.path =~ /\.git\/?/)
       end
 
       def initialize(uri, branch, working_directory=nil)
