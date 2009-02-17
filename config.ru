@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 require "rubygems"
-require "notifier/email"
 # since we are deploying integrity as a webapp instead of a gem, force the lib
 # subdirectory into the path
 $: << File.join( File.expand_path( File.dirname( __FILE__ ) ), "lib" )
 
 require "integrity"
+require "notifier/email"
 
 # If you want to add any notifiers, install the gems and then require them here
 # For example, to enable the Email notifier: install the gem (from github:
