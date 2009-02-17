@@ -14,8 +14,11 @@ class SCMTest < Test::Unit::TestCase
   it "recognizes subversion URIs" do
     scm("svn://example.org/repo").should be_an(SCM::Subversion)
     scm("svn://example.org/repo/").should be_an(SCM::Subversion)
+    scm("svn://user:pass@example.org/repo/").should be_an(SCM::Subversion)
     scm("http://example.org/repo/").should be_an(SCM::Subversion)
+    scm("http://user:pass@example.org/repo/").should be_an(SCM::Subversion)
     scm("https://example.org/repo/").should be_an(SCM::Subversion)
+    scm("https://user:pass@example.org/repo/").should be_an(SCM::Subversion)
     scm("svn+ssh://example.org/repo/").should be_an(SCM::Subversion)
     scm("file:///repo/").should be_an(SCM::Subversion)
   end

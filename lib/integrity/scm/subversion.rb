@@ -34,14 +34,14 @@ module Integrity
 
       def head
         log "Getting the HEAD of '#{uri}'"
-        xml = %x[ svn info #{auth_info} --non-interactive --xml #{uri} ]
+        xml = %x[ svn info --non-interactive --xml #{uri} ]
         doc = Hpricot::XML( xml )
         return doc.at("commit")['revision']
       end
 
       def info( revision )
         log "Retrieving info for revision #{revision}"
-        xml = %x[  svn log #{auth_info} --non-interactive --xml --revision #{revision} #{uri}  ]
+        xml = %x[  svn log --non-interactive --xml --revision #{revision} #{uri} ]
         doc = Hpricot::XML( xml )
         h = {}
         h['author']       = doc.at('author').inner_html + " <noemail>"
@@ -52,11 +52,6 @@ module Integrity
 
 
     private
-
-      # TODO : how to do autho information for svn ?
-      def auth_info
-        ""
-      end
 
       def initial_checkout
         log "Initial checkout of #{uri} to #{working_directory}"
