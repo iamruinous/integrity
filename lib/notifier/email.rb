@@ -2,6 +2,8 @@ require 'rubygems'
 require 'integrity'
 require 'sinatra/ditties/mailer'
 
+Net::SMTP.disable_tls
+
 module Integrity
   class Notifier
     class Email < Notifier::Base
