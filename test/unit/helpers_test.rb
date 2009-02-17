@@ -1,3 +1,4 @@
+require 'rubygems'
 require "rack"
 require File.dirname(__FILE__) + "/../helpers"
 require Integrity.root / "lib" / "integrity" / "helpers"

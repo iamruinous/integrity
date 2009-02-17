@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + "/../lib/integrity"
 
+require 'rubygems'
 begin
   require "test/unit"
   require "redgreen"
