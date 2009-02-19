@@ -43,6 +43,13 @@ EOF
       Integrity.migrate_db
     end
 
+    desc "console [CONFIG]",
+         "Drop into an irb console with this configuration of integrity"
+    def console(config)
+      require 'integrity/console'
+      Console.new(config).run
+    end
+
     desc "launch [CONFIG]",
          "Launch Integrity real quick."
     method_options :config => :optional, :port => 4567
