@@ -23,9 +23,9 @@ module Integrity
 
     def self.only_public_unless(condition)
       if condition
-        all
+        all(:order => [:name.asc])
       else
-        all(:public => true)
+        all(:public => true, :order => [:name.asc]))
       end
     end
     
