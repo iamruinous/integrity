@@ -25,7 +25,7 @@ module Integrity
       if condition
         all(:order => [:name.asc])
       else
-        all(:public => true, :order => [:name.asc]))
+        all(:public => true, :order => [:name.asc])
       end
     end
     
