@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + "/lib/integrity"
+require 'rubygems'
 require "rake/testtask"
 require "rcov/rcovtask"
 
@@ -51,8 +52,8 @@ namespace :test do
 
   desc "Install all gems on which the tests depend on"
   task :install_dependencies do
-    system 'gem install redgreen rr mocha ruby-debug dm-sweatshop webrat'
-    system 'gem install -s http://gems.github.com jeremymcanally-context jeremymcanally-matchy jeremymcanally-pending foca-storyteller'
+    system 'sudo gem install redgreen rr mocha ruby-debug dm-sweatshop webrat'
+    system 'sudo gem install -s http://gems.github.com jeremymcanally-context jeremymcanally-matchy jeremymcanally-pending foca-storyteller'
   end
 end
 

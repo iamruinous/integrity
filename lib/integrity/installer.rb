@@ -24,6 +24,13 @@ module Integrity
       migrate_db(direction)
     end
 
+    desc "console [CONFIG]",
+         "Drop into an irb console with this configuration of integrity"
+    def console(config)
+      require 'integrity/console'
+      Console.new(config).run
+    end
+
     desc "version",
          "Print the current integrity version"
     def version
