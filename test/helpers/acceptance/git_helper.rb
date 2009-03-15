@@ -15,12 +15,8 @@ module GitHelper
 
     def initialize(name)
       @name = name
-      @path = "/tmp" / @name.to_s
+      @path = "/tmp" / @name.to_s + ".git"
       create
-    end
-
-    def path
-      @path / ".git"
     end
 
     def create

@@ -36,6 +36,10 @@ module AcceptanceHelper
     Integrity.config[:export_directory] = export_directory
   end
 
+  def dump_log
+    puts IO.read( Integrity.config[:log] ) if File.exist?( Integrity.config[:log] )
+  end
+
   def setup_log!
     log_file = Pathname(File.dirname(__FILE__) + "/../../integrity.log")
     log_file.delete if log_file.exist?
