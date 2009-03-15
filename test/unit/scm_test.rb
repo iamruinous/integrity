@@ -38,9 +38,9 @@ class SCMTest < Test::Unit::TestCase
       SCM.new(Addressable::URI.parse("svn://example.com/repo/"), "master")
     }.should_not raise_error
   end
-
-  describe "SCM::Git::URI" do
-    uris = [
+  
+  describe "SCM::URI" do
+    git_uris = [
       "rsync://host.xz/path/to/repo.git/",
       "rsync://host.xz/path/to/repo.git",
       "rsync://host.xz/path/to/repo.gi",
@@ -62,11 +62,32 @@ class SCMTest < Test::Unit::TestCase
       "user@host.xz:path/to/repo.a_git"
     ]
 
-    uris.each do |uri|
+    git_uris.each do |uri|
       it "parses the uri #{uri}" do
-        git_url = SCM::Git::URI.new(uri)
+        git_url = SCM::URI.new(uri)
         git_url.working_tree_path.should == "path-to-repo"
       end
     end
+
+    svn_uris = [
+      "svn://host.xz/path/to/repo/",
+      "svn://host.xz/path/to/repo",
+      "http://host.xz/path/to/repo",
+      "http://host.xz/path/to/repo/",
+      "https://host.xz/path/to/repo",
+      "https://host.xz/path/to/repo/",
+      "file:///path/to/repo/",
+      "file:///path/to/repo",
+      "svn+ssh://host.xz/path/to/repo",
+      "svn+ssh://host.xz/path/to/repo/"
+    ]
+
+    svn_uris.each do |uri|
+      it "parses the svn uri #{uri}" do
+        svn_url = SCM::URI.new(uri)
+        svn_url.working_tree_path.should == "path-to-repo"
+      end
+    end
+
   end
 end
