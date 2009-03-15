@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__) + "/../lib", File.dirname(__FILE__),
   File.dirname(__FILE__) + "/../vendor/webrat/lib"
 
+require 'rubygems'
 %w(test/unit
 context
 pending
